@@ -1,0 +1,16 @@
+.kanban__content {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.kanban__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.kanban__top-title {
+  display: flex;
+}
+.kanban__top-values {
+  margin-left: 10px;
+}

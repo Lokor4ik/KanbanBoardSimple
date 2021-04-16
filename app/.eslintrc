@@ -1,0 +1,86 @@
+{
+  "env": {
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": ["airbnb-typescript", "react-app", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2018,
+    "project": "./tsconfig.json",
+    "extraFileExtensions": [".tsx, .jsx, .ts"]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  },
+  "rules": {
+    "jsx-quotes": [1, "prefer-double"],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "semi": [2],
+    "no-multi-spaces": [2],
+    "no-multiple-empty-lines": "error",
+    "object-curly-spacing": ["error", "always"],
+    "no-unused-vars": "error",
+    "no-var": "error",
+    "prettier/prettier": ["error"],
+    "react/react-in-jsx-scope": [0],
+    "react/no-array-index-key": [2],
+    "no-nested-ternary": [2],
+    "jsx-a11y/media-has-caption": [0],
+    "jsx-a11y/no-interactive-element-to-noninteractive-role": [0],
+    "react/jsx-props-no-spreading": [0],
+    "no-plusplus": [0],
+    "no-prototype-builtins": [0],
+    "react/prop-types": [0],
+    "react/destructuring-assignment": [0],
+    "import/prefer-default-export": [0],
+    "import/no-anonymous-default-export": [0],
+    "react/jsx-wrap-multilines": [0],
+    "no-underscore-dangle": [0],
+    "react/jsx-indent": [0],
+    "@typescript-eslint/indent": [0],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "args": "none"
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": [
+      "warn",
+      {
+        "ignoreRestArgs": true
+      }
+    ],
+    "react/jsx-key": "error",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.js",
+          "**/*.test.jsx",
+          "**/*.test.ts",
+          "**/*.test.tsx",
+          "src/tests/**/*"
+        ]
+      }
+    ],
+    "@typescript-eslint/comma-dangle": [
+      "error",
+      {
+        "arrays": "only-multiline",
+        "objects": "only-multiline",
+        "imports": "only-multiline",
+        "exports": "only-multiline",
+        "functions": "never"
+      }
+    ]
+  },
+  "plugins": ["prettier", "@typescript-eslint"]
+}

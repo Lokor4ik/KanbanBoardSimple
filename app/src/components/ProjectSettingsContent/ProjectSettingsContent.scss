@@ -1,0 +1,15 @@
+.project-settings__form {
+  display: flex;
+  justify-content: center;
+  padding-right: 10px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    min-width: 436px;
+    max-width: 436px;
+  }
+}
+.form__link {
+  margin-top: 10px;
+}
