@@ -13,9 +13,10 @@ import Loader from 'shared/Loader/Loader';
 import ProjectSettingsContent from 'components/ProjectSettingsContent/ProjectSettingsContent';
 
 import { RouteInfo } from 'containers/Kanban/types';
+import { FormikParamsNewProject } from 'containers/NewProject/types';
 
 import { RootState } from 'store/types';
-import { clearProjectErrors, getOneProject } from 'store/projects/action';
+import { clearProjectErrors, getOneProject, updateProject } from 'store/projects/action';
 
 const useStyles = makeStyles({
   h6: {
@@ -25,9 +26,9 @@ const useStyles = makeStyles({
 
 const ProjectSettings: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) => {
   const classes = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
 
   const { currentProject, loading, error } = useSelector((state: RootState) => state.projects);
 
@@ -45,7 +46,13 @@ const ProjectSettings: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
     }
   }, [dispatch, enqueueSnackbar, match.params.id, currentProject._id]);
 
-  const handleSumbit = () => {};
+  const handleSumbit = async ({ name, key }: FormikParamsNewProject) => {
+    if (name !== currentProject.name || key !== currentProject.key) {
+      await dispatch(updateProject({ id: match.params.id, name, key, enqueueSnackbar }));
+    }
+
+    history.push(`/projects/${match.params.id}`);
+  };
 
   const validationSchema = yup.object({
     name: yup.string().required('Name is required'),

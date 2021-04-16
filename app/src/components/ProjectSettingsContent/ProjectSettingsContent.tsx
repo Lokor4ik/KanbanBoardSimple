@@ -1,9 +1,6 @@
-import { withRouter } from 'react-router-dom';
-
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
-import CustomLink from 'shared/Link/Link';
 import ColorButton from 'shared/Button/Button';
 
 import { ProjectSettingsContentProps } from './types';
@@ -19,7 +16,7 @@ const useStyles = makeStyles({
   },
 });
 
-const ProjectSettingsContent: React.FC<ProjectSettingsContentProps> = ({ match, formik }) => {
+const ProjectSettingsContent: React.FC<ProjectSettingsContentProps> = ({ formik }) => {
   const classes = useStyles();
 
   return (
@@ -46,13 +43,6 @@ const ProjectSettingsContent: React.FC<ProjectSettingsContentProps> = ({ match, 
           error={formik.touched.key && Boolean(formik.errors.key)}
           helperText={formik.touched.key && formik.errors.key}
         />
-        <div className="form__link">
-          <CustomLink
-            title="Project participants"
-            path={`/projects/${match.params.id}/project-participants`}
-            className="link--purple link--no-margins"
-          />
-        </div>
 
         <ColorButton fullWidth type="submit" className={classes.submit}>
           Save
@@ -62,4 +52,4 @@ const ProjectSettingsContent: React.FC<ProjectSettingsContentProps> = ({ match, 
   );
 };
 
-export default withRouter(ProjectSettingsContent);
+export default ProjectSettingsContent;

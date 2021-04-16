@@ -5,14 +5,11 @@ import {
   PROJECTS_LOADING_SUCCESS,
   CREATE_NEW_PROJECT_REQUEST,
   CREATE_NEW_PROJECT_SUCCESS,
+  UPDATE_PROJECT_REQUEST,
+  UPDATE_PROJECT_SUCCESS,
   GET_ONE_PROJECT_REQUEST,
   GET_ONE_PROJECT_SUCCESS,
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS,
-  DELETE_USER_REQUEST,
-  DELETE_USER_SUCCESS,
   PROJECTS_ONE_PROJECT_FAILURE,
-  PROJECTS_FIND_USER_FAILURE,
   PROJECTS_FAILURE,
   CLEAR_ERRORS,
   ProjectInitialState,
@@ -26,8 +23,6 @@ export const initialStateProjects: ProjectInitialState = {
     _id: '',
     name: '',
     key: '',
-    lead: '',
-    participants: [],
   },
   error: false,
 };
@@ -36,8 +31,7 @@ export default function reducer(state = initialStateProjects, action: AnyAction)
   switch (action.type) {
     case PROJECTS_LOADING_REQUEST:
     case GET_ONE_PROJECT_REQUEST:
-    case GET_USER_REQUEST:
-    case DELETE_USER_REQUEST:
+    case UPDATE_PROJECT_REQUEST:
       return {
         ...state,
         loading: true,
@@ -57,20 +51,11 @@ export default function reducer(state = initialStateProjects, action: AnyAction)
         loading: false,
       };
     }
-    case CREATE_NEW_PROJECT_SUCCESS: {
+    case CREATE_NEW_PROJECT_SUCCESS:
+    case UPDATE_PROJECT_SUCCESS: {
       return {
         ...state,
         creatingProject: false,
-      };
-    }
-    case GET_USER_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        currentProject: {
-          ...state.currentProject,
-          participants: [...state.currentProject.participants, action.payload.userData],
-        },
       };
     }
     case GET_ONE_PROJECT_SUCCESS: {
@@ -82,29 +67,10 @@ export default function reducer(state = initialStateProjects, action: AnyAction)
         currentProject: action.payload.project,
       };
     }
-    case DELETE_USER_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        currentProject: {
-          ...state.currentProject,
-          participants: action.payload.participants,
-        },
-      };
-    }
     case PROJECTS_ONE_PROJECT_FAILURE: {
       return {
         ...initialStateProjects,
         error: true,
-      };
-    }
-    case PROJECTS_FIND_USER_FAILURE: {
-      return {
-        ...state,
-        currentProject: {
-          ...state.currentProject,
-        },
-        loading: false,
       };
     }
     case PROJECTS_FAILURE: {

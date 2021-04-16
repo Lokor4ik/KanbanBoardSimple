@@ -2,7 +2,6 @@ import { useEffect, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-// import CryptoAES from 'crypto-js/aes';
 
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,9 +29,9 @@ const useStyles = makeStyles({
 });
 
 const ProjectsContainer = () => {
+  const classes = useStyles();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const classes = useStyles();
 
   const { rows, loading, creatingProject } = useSelector((state: RootState) => state.projects);
 
@@ -46,12 +45,9 @@ const ProjectsContainer = () => {
     if (!creatingProject) {
       fetchProjects();
     }
-  }, [fetchProjects, creatingProject]);
+  }, [creatingProject, fetchProjects]);
 
   const fetchProject = async (id: string) => {
-    /* const encryptId = CryptoAES.encrypt(id, String(process.env.REACT_APP_ENCRYPT_SECRET_KEY));
-    const convertedId = encodeURIComponent(encryptId.toString()); */
-
     history.push(`/projects/${id}`);
   };
 
@@ -80,11 +76,12 @@ const ProjectsContainer = () => {
           className="link--blue link--no-margins"
         />
       </div>
+
       {rows?.length ? (
         <ProjectsTable fetchProject={fetchProject} rows={rows} />
       ) : (
         <Typography className={classes.body1} variant="body1">
-          There are no projects in which you are involved
+          There are no projects
         </Typography>
       )}
     </div>

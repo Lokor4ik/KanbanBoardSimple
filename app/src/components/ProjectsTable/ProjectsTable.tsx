@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -46,7 +48,7 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({ rows, fetchProject }) => 
           <TableRow>
             <TableCell className={classes.tableHeaderCell}>Name</TableCell>
             <TableCell className={classes.tableHeaderCell}>Key</TableCell>
-            <TableCell className={classes.tableHeaderCell}>Lead</TableCell>
+            <TableCell className={classes.tableHeaderCell}>Created</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -59,7 +61,9 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({ rows, fetchProject }) => 
                 {row.name}
               </TableCell>
               <TableCell className={classes.tableCell}>{row.key}</TableCell>
-              <TableCell className={classes.tableCell}>{row.lead}</TableCell>
+              <TableCell className={classes.tableCell}>
+                {moment(row.createdAt).format('YYYY-MM-DD hh:mm:ss A')}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
