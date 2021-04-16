@@ -26,8 +26,6 @@ You need to add a .env file to the `api` directory, where specify these variable
 
 ##### MONGO_URI: `mongodb+srv://...`
 
-##### JWT_SECRET: `mysecrettoken`
-
 &nbsp;
 
 #### For Frontend
