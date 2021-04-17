@@ -6,7 +6,7 @@ import { SET_CARD_DESTINATION, KanbanInitialState } from './types';
 export const initialStateKanban: KanbanInitialState = {
   columns: {
     [uuidv4()]: {
-      name: 'Requested',
+      name: 'Resources',
       items: [
         { id: uuidv4(), content: 'First task' },
         { id: uuidv4(), content: 'Second task' },
