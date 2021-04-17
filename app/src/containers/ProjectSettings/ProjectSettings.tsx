@@ -5,9 +5,6 @@ import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-
 import Loader from 'shared/Loader/Loader';
 
 import ProjectSettingsContent from 'components/ProjectSettingsContent/ProjectSettingsContent';
@@ -18,14 +15,7 @@ import { FormikParamsNewProject } from 'containers/NewProject/types';
 import { RootState } from 'store/types';
 import { clearProjectErrors, getOneProject, updateProject } from 'store/projects/action';
 
-const useStyles = makeStyles({
-  h6: {
-    fontWeight: 500,
-  },
-});
-
 const ProjectSettings: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
@@ -81,10 +71,6 @@ const ProjectSettings: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
 
   return (
     <div className="project-settings__wrapper shared--wrapper">
-      <Typography variant="h6" className={classes.h6}>
-        Project settings
-      </Typography>
-
       <ProjectSettingsContent formik={formik} />
     </div>
   );

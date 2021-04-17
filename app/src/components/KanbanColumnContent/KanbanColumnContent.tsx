@@ -7,8 +7,8 @@ import './KanbanColumnContent.scss';
 const getListStyle = (isDraggingOver: boolean) => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
   padding: 4,
-  width: 250,
-  minHeight: 500,
+  width: 300,
+  minHeight: 600,
 });
 
 const getItemStyle: TypeGetItemStyle = (isDragging, restStyles) => ({

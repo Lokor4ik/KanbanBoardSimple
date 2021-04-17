@@ -1,3 +1,11 @@
+.loader {
+  position: absolute;
+  top: 0;
+  background: white;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
 .loader__content {
   display: flex;
   height: 100vh;

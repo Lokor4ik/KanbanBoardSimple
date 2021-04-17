@@ -1,4 +1,5 @@
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
@@ -6,7 +7,8 @@ import * as yup from 'yup';
 
 import NewProjectContent from 'components/NewProjectContent/NewProjectContent';
 
-import { createNewProject } from 'store/projects/action';
+import { clearProjectRows, createNewProject } from 'store/projects/action';
+import { RootState } from 'store/types';
 
 import { FormikParamsNewProject } from './types';
 
@@ -15,6 +17,14 @@ const NewProject = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const { rows } = useSelector((state: RootState) => state.projects);
+
+  useEffect(() => {
+    if (rows?.length) {
+      dispatch(clearProjectRows());
+    }
+  }, [dispatch, rows?.length]);
 
   const handleSumbit = async ({ name, key }: FormikParamsNewProject) => {
     await dispatch(createNewProject({ enqueueSnackbar, name, key: key.toUpperCase() }));
