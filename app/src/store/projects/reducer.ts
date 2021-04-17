@@ -9,6 +9,7 @@ import {
   UPDATE_PROJECT_SUCCESS,
   GET_ONE_PROJECT_REQUEST,
   GET_ONE_PROJECT_SUCCESS,
+  CLEAR_ROWS,
   PROJECTS_ONE_PROJECT_FAILURE,
   PROJECTS_FAILURE,
   CLEAR_ERRORS,
@@ -65,6 +66,12 @@ export default function reducer(state = initialStateProjects, action: AnyAction)
         loading: false,
         creatingProject: false,
         currentProject: action.payload.project,
+      };
+    }
+    case CLEAR_ROWS: {
+      return {
+        ...state,
+        rows: [],
       };
     }
     case PROJECTS_ONE_PROJECT_FAILURE: {

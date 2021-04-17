@@ -14,6 +14,7 @@ import {
   UPDATE_PROJECT_SUCCESS,
   GET_ONE_PROJECT_REQUEST,
   GET_ONE_PROJECT_SUCCESS,
+  CLEAR_ROWS,
   PROJECTS_ONE_PROJECT_FAILURE,
   PROJECTS_FAILURE,
   CLEAR_ERRORS,
@@ -116,6 +117,12 @@ export const getOneProject = ({
       type: PROJECTS_ONE_PROJECT_FAILURE,
     });
   }
+};
+
+export const clearProjectRows = (): RootThunkAction => async (dispatch) => {
+  dispatch({
+    type: CLEAR_ROWS,
+  });
 };
 
 export const clearProjectErrors = (): RootThunkAction => async (dispatch) => {
