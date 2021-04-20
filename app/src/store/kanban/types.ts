@@ -1,15 +1,12 @@
 export const SET_CARD_DESTINATION = 'SET_CARD_DESTINATION';
 
 export interface KanbanInitialState {
-  columns: {
-    [x: string]: {
-      name: string;
-      items: {
-        id: string;
-        content: string;
-      }[];
-    };
-  };
+  columns: Array<{
+    id: string;
+    index: number;
+    columnId: string;
+    content: string;
+  }>;
 }
 
 export interface TypeKanbanColumns {
@@ -20,9 +17,10 @@ export interface TypeKanbanColumns {
 }
 
 export type ParamsChangeCardPosition = {
-  srcDroppableId: string;
+  draggableId: string;
   srcIndex: number;
   destIndex: number;
+  srcDroppableId: string;
 };
 
 export type ParamsChangeCardColumn = ParamsChangeCardPosition & {

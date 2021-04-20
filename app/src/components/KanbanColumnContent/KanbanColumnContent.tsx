@@ -21,7 +21,7 @@ const getItemStyle: TypeGetItemStyle = (isDragging, restStyles) => ({
   ...restStyles,
 });
 
-const KanbanColumnContent: React.FC<PropsKanbanColumnContent> = ({ columnId, column }) => (
+const KanbanColumnContent: React.FC<PropsKanbanColumnContent> = ({ columnId, columns }) => (
   <div className="kanban__column-content">
     <Droppable droppableId={columnId}>
       {(providedUpper, snapshotUpper) => (
@@ -30,20 +30,26 @@ const KanbanColumnContent: React.FC<PropsKanbanColumnContent> = ({ columnId, col
           ref={providedUpper.innerRef}
           style={getListStyle(snapshotUpper.isDraggingOver)}
         >
-          {column.items.map((item, index) => (
-            <Draggable key={item.id} draggableId={item.id} index={index}>
-              {(providedLower, snapshotLower) => (
-                <div
-                  {...providedLower.draggableProps}
-                  {...providedLower.dragHandleProps}
-                  ref={providedLower.innerRef}
-                  style={getItemStyle(snapshotLower.isDragging, providedLower.draggableProps.style)}
-                >
-                  {item.content}
-                </div>
-              )}
-            </Draggable>
-          ))}
+          {columns.map(
+            (item) =>
+              columnId === item.columnId && (
+                <Draggable key={item.id} draggableId={item.id} index={item.index}>
+                  {(providedLower, snapshotLower) => (
+                    <div
+                      {...providedLower.draggableProps}
+                      {...providedLower.dragHandleProps}
+                      ref={providedLower.innerRef}
+                      style={getItemStyle(
+                        snapshotLower.isDragging,
+                        providedLower.draggableProps.style
+                      )}
+                    >
+                      {item.content}
+                    </div>
+                  )}
+                </Draggable>
+              )
+          )}
           {providedUpper.placeholder}
         </div>
       )}

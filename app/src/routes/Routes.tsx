@@ -14,9 +14,9 @@ export const useRoutes = () => {
   return (
     <Switch>
       <Route exact path="/projects" component={Projects} />
-      <Route exact path="/projects/:id" component={Kanban} />
-      <Route exact path="/projects/:id/project-settings" component={ProjectSettings} />
-      <Route exact path="/new-project" component={NewProject} />
+      <Route path="/projects/:id/project-settings" component={ProjectSettings} />
+      <Route path="/projects/:id" component={Kanban} />
+      <Route path="/new-project" component={NewProject} />
 
       {pathsFromAuth.includes(location.pathname) && <Redirect to="/projects" />}
       <Route component={NotFound} />

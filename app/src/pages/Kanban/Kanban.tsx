@@ -1,7 +1,10 @@
+// import { Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import NavBar from 'layouts/NavBar/NavBar';
 import MainLayout from 'layouts/MainLayout/MainLayout';
+
+// import NewTicket from 'pages/NewTicket/NewTicket';
 
 import KanbanContainer from 'containers/Kanban/Kanban';
 
@@ -21,6 +24,8 @@ const Kanban = () => {
       <MainLayout sectionName="kanban">
         <KanbanContainer />
       </MainLayout>
+
+      {/* <Route path="/projects/:id/new-ticket" exact component={NewTicket} /> */}
     </>
   );
 };

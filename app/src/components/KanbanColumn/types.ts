@@ -1,5 +1,5 @@
-import { PropsKanbanColumnContent } from 'components/KanbanColumnContent/types';
-
-export type PropsKanbanColumn = PropsKanbanColumnContent & {
+export type PropsKanbanColumn = {
+  columnId: string;
+  name: string;
   children: React.ReactNode;
 };

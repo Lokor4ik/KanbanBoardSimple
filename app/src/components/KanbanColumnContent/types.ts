@@ -3,10 +3,12 @@ import { DraggingStyle, NotDraggingStyle } from 'react-beautiful-dnd';
 
 export type PropsKanbanColumnContent = {
   columnId: string;
-  column: {
-    name: string;
-    items: Array<{ id: string; content: string }>;
-  };
+  columns: Array<{
+    id: string;
+    columnId: string;
+    index: number;
+    content: string;
+  }>;
 };
 
 export type TypeGetItemStyle = (

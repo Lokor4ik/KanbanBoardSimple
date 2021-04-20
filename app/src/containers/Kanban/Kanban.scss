@@ -1,4 +1,18 @@
+.kanban__wrapper {
+  button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    font-size: 16px;
+  }
+}
 .kanban__content {
   display: flex;
   margin-top: 20px;
+}
+.new-ticket__inner {
+  background-color: #ffffff;
 }

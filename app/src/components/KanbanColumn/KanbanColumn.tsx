@@ -11,13 +11,13 @@ const useStyles = makeStyles({
   },
 });
 
-const KanbanColumn: React.FC<PropsKanbanColumn> = ({ columnId, column, children }) => {
+const KanbanColumn: React.FC<PropsKanbanColumn> = ({ columnId, name, children }) => {
   const classes = useStyles();
 
   return (
     <div className="kanban__column" key={columnId}>
       <Typography className={classes.h6} variant="h6">
-        {column.name}
+        {name}
       </Typography>
       {children}
     </div>
