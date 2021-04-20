@@ -1,5 +1,7 @@
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
+import Typography from '@material-ui/core/Typography';
+
 import { PropsKanbanColumnContent, TypeGetItemStyle } from './types';
 
 import './KanbanColumnContent.scss';
@@ -21,7 +23,11 @@ const getItemStyle: TypeGetItemStyle = (isDragging, restStyles) => ({
   ...restStyles,
 });
 
-const KanbanColumnContent: React.FC<PropsKanbanColumnContent> = ({ columnId, columns }) => (
+const KanbanColumnContent: React.FC<PropsKanbanColumnContent> = ({
+  columnId,
+  columns,
+  keyProject,
+}) => (
   <div className="kanban__column-content">
     <Droppable droppableId={columnId}>
       {(providedUpper, snapshotUpper) => (
@@ -33,7 +39,7 @@ const KanbanColumnContent: React.FC<PropsKanbanColumnContent> = ({ columnId, col
           {columns.map(
             (item) =>
               columnId === item.columnId && (
-                <Draggable key={item.id} draggableId={item.id} index={item.index}>
+                <Draggable key={item._id} draggableId={item._id} index={item.index}>
                   {(providedLower, snapshotLower) => (
                     <div
                       {...providedLower.draggableProps}
@@ -44,7 +50,11 @@ const KanbanColumnContent: React.FC<PropsKanbanColumnContent> = ({ columnId, col
                         providedLower.draggableProps.style
                       )}
                     >
-                      {item.content}
+                      <Typography variant="body2">{`${keyProject} - ${item.keyNumber}`}</Typography>
+
+                      <Typography variant="h6">{item.title}</Typography>
+
+                      <Typography variant="body1">{item.descr}</Typography>
                     </div>
                   )}
                 </Draggable>

@@ -18,7 +18,12 @@ import KanbanColumnContent from 'components/KanbanColumnContent/KanbanColumnCont
 import NewTicketContent from 'components/NewTicketContent/NewTicketContent';
 
 import { RootState } from 'store/types';
-import { changeCardColumn, changeCardPosition } from 'store/kanban/action';
+import {
+  changeCardColumn,
+  changeCardPosition,
+  createNewTicket,
+  getTickets,
+} from 'store/kanban/action';
 import { clearProjectErrors, getOneProject } from 'store/projects/action';
 
 import { kanbanTables } from 'assets/code/kanbanTables';
@@ -47,23 +52,37 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const { columns } = useSelector((state: RootState) => state.kanban);
 
-  const { loading, error, currentProject } = useSelector((state: RootState) => state.projects);
+  const { loading: loadingProject, error, currentProject } = useSelector(
+    (state: RootState) => state.projects
+  );
 
-  const [fetchIsEnd, setFetchIsEnd] = useState(false);
+  const [fetchIsEndCurrentProject, setFetchIsEndCurrentProject] = useState(false);
+  const [fetchIsEndProjectTickets, setFetchIsEndProjectTickets] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const dispatch = useDispatch();
-
   const handleSumbit = async ({ title, descr }: FormikParamsNewTicket) => {
-    console.log(title, descr);
+    await dispatch(
+      createNewTicket({
+        projectId: match.params.id,
+        title,
+        descr,
+        index: columns.length,
+        keyNumber: columns.length + 1,
+        enqueueSnackbar,
+      })
+    );
+
+    handleCloseModal();
+    formik.resetForm();
+    fetchProjectTickets();
   };
 
   const validationSchema = yup.object({
     title: yup.string().required('Title is required'),
-    descr: yup.string().required('Description is required'),
   });
 
   const formik = useFormik({
@@ -78,12 +97,19 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
   const fetchCurrentProject = useCallback(async () => {
     await dispatch(getOneProject({ id: match.params.id, enqueueSnackbar }));
 
-    setFetchIsEnd(true);
+    setFetchIsEndCurrentProject(true);
+  }, [dispatch, enqueueSnackbar, match.params.id]);
+
+  const fetchProjectTickets = useCallback(async () => {
+    await dispatch(getTickets({ projectId: match.params.id, enqueueSnackbar }));
+
+    setFetchIsEndProjectTickets(true);
   }, [dispatch, enqueueSnackbar, match.params.id]);
 
   useEffect(() => {
     fetchCurrentProject();
-  }, [fetchCurrentProject]);
+    fetchProjectTickets();
+  }, [fetchCurrentProject, fetchProjectTickets]);
 
   useEffect(() => {
     if (error) {
@@ -128,7 +154,12 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
     setOpen(false);
   };
 
-  if (!fetchIsEnd || loading || !currentProject._id) {
+  if (
+    !fetchIsEndCurrentProject ||
+    !fetchIsEndProjectTickets ||
+    loadingProject ||
+    !currentProject._id
+  ) {
     return <Loader />;
   }
 
@@ -142,7 +173,11 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
         <DragDropContext onDragEnd={onDragEnd}>
           {kanbanTables.map(({ id, name }) => (
             <KanbanColumn key={id} columnId={id} name={name}>
-              <KanbanColumnContent columnId={id} columns={columns} />
+              <KanbanColumnContent
+                columnId={id}
+                columns={columns}
+                keyProject={currentProject.key}
+              />
             </KanbanColumn>
           ))}
         </DragDropContext>

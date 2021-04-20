@@ -1,5 +1,24 @@
-import { RootThunkAction } from 'store/types';
-import { SET_CARD_DESTINATION, ParamsChangeCardColumn, ParamsChangeCardPosition } from './types';
+import handleErrors from 'utils/actionErrors';
+import getFetchHeaders from 'utils/getFetchHeaders';
+
+import { kanbanTables } from 'assets/code/kanbanTables';
+
+import request from 'services/axios';
+
+import { RootThunkAction, ProviderContextNotistack } from 'store/types';
+
+import {
+  SET_CARD_DESTINATION,
+  CREATE_NEW_TICKET_REQUEST,
+  CREATE_NEW_TICKET_SUCCESS,
+  GET_TICKETS_REQUEST,
+  GET_TICKETS_SUCCESS,
+  KANBAN_FAILURE,
+  ParamsChangeCardColumn,
+  ParamsChangeCardPosition,
+  ParamsCreateNewTicket,
+  ParamsGetTickets,
+} from './types';
 
 export const changeCardColumn = ({
   draggableId,
@@ -14,7 +33,7 @@ export const changeCardColumn = ({
   const modifiedColumns = columns
     .map((item) => {
       // looking for the same dragged card and change its position and board
-      if (item.id === draggableId) {
+      if (item._id === draggableId) {
         return { ...item, columnId: destDroppableId, index: destIndex };
       }
 
@@ -28,7 +47,11 @@ export const changeCardColumn = ({
 
       // looking for cards that belong to the board to which the card
       // was moved and change these cards to one more position
-      if (item.columnId === destDroppableId && item.id !== draggableId && item.index >= destIndex) {
+      if (
+        item.columnId === destDroppableId &&
+        item._id !== draggableId &&
+        item.index >= destIndex
+      ) {
         return { ...item, index: item.index + 1 };
       }
 
@@ -73,15 +96,18 @@ export const changeCardPosition = ({
 
   const modifiedColumns = columns
     .map((item) => {
-      if (item.columnId === srcDroppableId && item.id === draggableId) {
+      if (item.columnId === srcDroppableId && item._id === draggableId) {
         return { ...item, index: destIndex };
       }
+      console.log(destIndex, srcIndex);
+      console.log(item);
 
       if (
         destIndex > srcIndex &&
         item.columnId === srcDroppableId &&
-        item.id !== draggableId &&
-        item.index > srcIndex
+        item._id !== draggableId &&
+        item.index >= srcIndex + 1 &&
+        item.index <= destIndex
       ) {
         return { ...item, index: item.index - 1 };
       }
@@ -89,8 +115,9 @@ export const changeCardPosition = ({
       if (
         destIndex < srcIndex &&
         item.columnId === srcDroppableId &&
-        item.id !== draggableId &&
-        item.index <= destIndex
+        item._id !== draggableId &&
+        item.index <= srcIndex - 1 &&
+        item.index >= destIndex
       ) {
         return { ...item, index: item.index + 1 };
       }
@@ -116,4 +143,81 @@ export const changeCardPosition = ({
     type: SET_CARD_DESTINATION,
     payload: { modifiedColumns },
   });
+};
+
+export const createNewTicket = ({
+  projectId,
+  title,
+  descr,
+  index,
+  keyNumber,
+  enqueueSnackbar,
+}: ParamsCreateNewTicket & ProviderContextNotistack): RootThunkAction => async (dispatch) => {
+  try {
+    dispatch({
+      type: CREATE_NEW_TICKET_REQUEST,
+    });
+
+    const headers = getFetchHeaders();
+    const body = JSON.stringify({
+      projectId,
+      title,
+      descr,
+      columnId: kanbanTables[0].id,
+      index,
+      keyNumber,
+    });
+    const { msg, severity } = await request('/api/ticket', 'POST', body, headers);
+
+    enqueueSnackbar(msg, {
+      variant: severity,
+    });
+
+    dispatch({
+      type: CREATE_NEW_TICKET_SUCCESS,
+    });
+  } catch (error) {
+    const errors = handleErrors(error);
+
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
+    dispatch({
+      type: KANBAN_FAILURE,
+    });
+  }
+};
+
+export const getTickets = ({
+  projectId,
+  enqueueSnackbar,
+}: ParamsGetTickets & ProviderContextNotistack): RootThunkAction => async (dispatch) => {
+  try {
+    dispatch({
+      type: GET_TICKETS_REQUEST,
+    });
+
+    const headers = getFetchHeaders();
+    const tickets = await request(`/api/ticket/${projectId}`, 'GET', null, headers);
+
+    dispatch({
+      type: GET_TICKETS_SUCCESS,
+      payload: { tickets },
+    });
+  } catch (error) {
+    const errors = handleErrors(error);
+
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
+    dispatch({
+      type: KANBAN_FAILURE,
+    });
+  }
 };

@@ -4,11 +4,14 @@ import { DraggingStyle, NotDraggingStyle } from 'react-beautiful-dnd';
 export type PropsKanbanColumnContent = {
   columnId: string;
   columns: Array<{
-    id: string;
+    _id: string;
     columnId: string;
     index: number;
-    content: string;
+    title: string;
+    descr: string;
+    keyNumber: number;
   }>;
+  keyProject: string;
 };
 
 export type TypeGetItemStyle = (
