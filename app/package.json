@@ -6,8 +6,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "start:prod": "npx env-cmd -f .env.production react-scripts start",
-    "build:prod": "npx env-cmd -f .env.production react-scripts build",
+    "build:prod": "env-cmd -f .env.production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -27,7 +26,6 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/uuid": "^8.3.0",
     "axios": "^0.21.1",
-    "env-cmd": "^10.1.0",
     "formik": "^2.2.6",
     "moment": "^2.29.1",
     "notistack": "^1.0.5",
