@@ -7,12 +7,12 @@ import routes from './routes';
 
 dotenv.config();
 
-const { API_PORT, DEV_CLIENT_URL, PROD_LOCAL_CLIENT_URL, PROD_NETWORK_CLIENT_URL } = process.env;
+const { API_PORT, DEV_CLIENT_URL, PROD_LOCAL_CLIENT_URL, PROD_NETWORK_CLIENT_URL, PROD_CLIENT_URL } = process.env;
 
 const app = express();
 
 const corsOptions = {
-  origin: [DEV_CLIENT_URL as string, PROD_LOCAL_CLIENT_URL as string, PROD_NETWORK_CLIENT_URL as string],
+  origin: [DEV_CLIENT_URL as string, PROD_LOCAL_CLIENT_URL as string, PROD_NETWORK_CLIENT_URL as string, PROD_CLIENT_URL as string],
   credentials: true,
 };
 
