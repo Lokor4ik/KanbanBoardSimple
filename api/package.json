@@ -20,7 +20,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node build/index.js",
     "prestart": "npm run build",
-    "build": "tsc"
+    "start-dev": "NODE_PATH=./src nodemon src/index.ts",
+    "build": "npm run tsc",
+    "tsc": "tsc"
   },
   "dependencies": {
     "@types/cors": "^2.8.10",
