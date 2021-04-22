@@ -20,8 +20,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (_, res) => res.send('HAHAHA'));
-
 routes(app);
 
 connectDB();
