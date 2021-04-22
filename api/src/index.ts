@@ -7,7 +7,7 @@ import routes from './routes/index';
 
 dotenv.config();
 
-const { API_PORT, DEV_CLIENT_URL, PROD_LOCAL_CLIENT_URL, PROD_NETWORK_CLIENT_URL, PROD_CLIENT_URL } = process.env;
+const { PORT, DEV_CLIENT_URL, PROD_LOCAL_CLIENT_URL, PROD_NETWORK_CLIENT_URL, PROD_CLIENT_URL } = process.env;
 
 const app = express();
 
@@ -28,8 +28,8 @@ connectDB();
 
 if (require.main === module) {
   try {
-    app.listen(Number(API_PORT) || 9090, '0.0.0.0', () => {
-      console.warn(`API server listening on port ${API_PORT}`);
+    app.listen(Number(PORT) || 9090, '0.0.0.0', () => {
+      console.warn(`API server listening on port ${PORT}`);
     });
   } catch (error) {
     console.error(error);
