@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "api": "npm --prefix api/ run start",
     "app": "npm --prefix app/ run start",
-    "build:app": "npm --prefix app/ run build:prod"
+    "build:app": "npm --prefix app/ run build"
   },
   "author": "Pavel Volovich"
 }
