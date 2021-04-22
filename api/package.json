@@ -3,10 +3,23 @@
   "description": "This is server version of the kanban project",
   "version": "1.0.0",
   "private": true,
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "node -r tsconfig-paths/register -r ts-node/register ./src/index.ts",
+    "ext": "ts, js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_PATH=./src nodemon src/index.ts",
-    "build": "tsc --project ./"
+    "build": "tsc"
   },
   "dependencies": {
     "@types/cors": "^2.8.10",
@@ -14,7 +27,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
-    "mongoose": "^5.11.13"
+    "mongoose": "^5.11.13",
+    "tsconfig-paths": "^3.9.0"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",

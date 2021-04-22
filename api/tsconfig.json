@@ -1,9 +1,17 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    "outDir": "./build",
+    "baseUrl": ".",
+    "paths": {
+      "@config/*": ["src/config/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@models/*": ["src/models/*"],
+      "@routes/*": ["src/routes/*"],
+      "@utils/*": ["src/utils/*"]
+    },
+    "outDir": "build",
     "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "sourceMap": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -17,7 +25,8 @@
     "isolatedModules": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "noEmit": true
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": ["src/**/*", "index.d.ts"],
   "exclude": ["node_modules", "build"]

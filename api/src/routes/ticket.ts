@@ -1,7 +1,7 @@
 import express from 'express';
 import { check } from 'express-validator';
 
-import ticketController from 'controllers/ticket/ticket';
+import ticketController from '@controllers/ticket/ticket';
 
 const router = express.Router();
 
