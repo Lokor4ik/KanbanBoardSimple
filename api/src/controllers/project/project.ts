@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
-import { Project } from '@models/Project/Project';
+import { Project } from '../../models/Project/Project';
 
-import checkErrors from '@utils/middlewareErrors';
+import checkErrors from '../../utils/middlewareErrors';
 
 const createProject = async (req: Request, res: Response) => {
   checkErrors(req, res);

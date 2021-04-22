@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 
-import Project from '@models/Project/Project';
-import Ticket from '@models/Ticket/Ticket';
-import { TicketInterface } from '@models/Ticket/types';
+import Project from '../../models/Project/Project';
+import Ticket from '../../models/Ticket/Ticket';
+import { TicketInterface } from '../../models/Ticket/types';
 
-import checkErrors from '@utils/middlewareErrors';
+import checkErrors from '../../utils/middlewareErrors';
 
 const createTicket = async (req: Request, res: Response) => {
   checkErrors(req, res);
