@@ -1,16 +1,11 @@
 import { CSSProperties } from 'react';
 import { DraggingStyle, NotDraggingStyle } from 'react-beautiful-dnd';
 
+import { ColumnsType } from 'store/kanban/types';
+
 export type PropsKanbanColumnContent = {
   columnId: string;
-  columns: Array<{
-    _id: string;
-    columnId: string;
-    index: number;
-    title: string;
-    descr: string;
-    keyNumber: number;
-  }>;
+  columns: Array<ColumnsType>;
   keyProject: string;
 };
 

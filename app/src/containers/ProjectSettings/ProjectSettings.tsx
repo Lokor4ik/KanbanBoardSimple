@@ -38,7 +38,9 @@ const ProjectSettings: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
 
   const handleSumbit = async ({ name, key }: FormikParamsNewProject) => {
     if (name !== currentProject.name || key !== currentProject.key) {
-      await dispatch(updateProject({ id: match.params.id, name, key, enqueueSnackbar }));
+      await dispatch(
+        updateProject({ id: match.params.id, name, key: key.toUpperCase(), enqueueSnackbar })
+      );
     }
 
     history.push(`/projects/${match.params.id}`);

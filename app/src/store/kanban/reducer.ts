@@ -3,6 +3,8 @@ import { AnyAction } from 'redux';
 
 import {
   SET_CARD_DESTINATION,
+  SET_CARD_DESTINATION_REQUEST,
+  SET_CARD_DESTINATION_SUCCESS,
   CREATE_NEW_TICKET_REQUEST,
   CREATE_NEW_TICKET_SUCCESS,
   GET_TICKETS_REQUEST,
@@ -27,13 +29,15 @@ export const initialStateKanban: KanbanInitialState = {
 export default function reducer(state = initialStateKanban, action: AnyAction) {
   switch (action.type) {
     case CREATE_NEW_TICKET_REQUEST:
-    case GET_TICKETS_REQUEST: {
+    case GET_TICKETS_REQUEST:
+    case SET_CARD_DESTINATION_REQUEST: {
       return {
         ...state,
         loading: true,
       };
     }
-    case CREATE_NEW_TICKET_SUCCESS: {
+    case CREATE_NEW_TICKET_SUCCESS:
+    case SET_CARD_DESTINATION_SUCCESS: {
       return {
         ...state,
         loading: false,

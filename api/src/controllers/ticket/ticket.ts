@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import Project from 'models/Project/Project';
 import Ticket from 'models/Ticket/Ticket';
+import { TicketInterface } from 'models/Ticket/types';
 
 import checkErrors from 'utils/middlewareErrors';
 
@@ -65,4 +66,36 @@ const getTickets = async (req: Request, res: Response) => {
   }
 };
 
-export default { createTicket, getTickets };
+const changeTicketsPosition = async (req: Request, res: Response) => {
+  checkErrors(req, res);
+
+  try {
+    const { projectId, updatedTickets } = req.body;
+
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(404).json({ errors: [{ msg: 'Project not found', severity: 'error' }] });
+    }
+
+    await Ticket.bulkWrite(
+      updatedTickets.map((item: TicketInterface) => ({
+        updateOne: {
+          filter: { _id: item._id },
+          update: { $set: item },
+        },
+      }))
+    );
+
+    res.json({ updatedTickets });
+  } catch (error) {
+    if (error.kind === 'ObjectId') {
+      res.status(404).json({ errors: [{ msg: 'One of the IDs is incorrect', severity: 'error' }] });
+      return;
+    }
+
+    res.status(500).send('Server Error');
+  }
+};
+
+export default { createTicket, getTickets, changeTicketsPosition };

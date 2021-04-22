@@ -8,6 +8,8 @@ import './KanbanColumn.scss';
 const useStyles = makeStyles({
   h6: {
     fontWeight: 600,
+    marginLeft: 15,
+    color: '#444444',
   },
 });
 

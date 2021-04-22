@@ -17,6 +17,8 @@ import KanbanColumn from 'components/KanbanColumn/KanbanColumn';
 import KanbanColumnContent from 'components/KanbanColumnContent/KanbanColumnContent';
 import NewTicketContent from 'components/NewTicketContent/NewTicketContent';
 
+import { kanbanTables } from 'assets/code/kanbanTables';
+
 import { RootState } from 'store/types';
 import {
   changeCardColumn,
@@ -25,8 +27,6 @@ import {
   getTickets,
 } from 'store/kanban/action';
 import { clearProjectErrors, getOneProject } from 'store/projects/action';
-
-import { kanbanTables } from 'assets/code/kanbanTables';
 
 import { RouteInfo, FormikParamsNewTicket } from './types';
 
@@ -65,19 +65,25 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
   const [open, setOpen] = useState(false);
 
   const handleSumbit = async ({ title, descr }: FormikParamsNewTicket) => {
+    setFetchIsEndProjectTickets(false);
+
+    const index = columns.filter((item) => item.columnId === kanbanTables[0].id).length;
+
     await dispatch(
       createNewTicket({
         projectId: match.params.id,
         title,
+        index,
+        columnId: kanbanTables[0].id,
         descr,
-        index: columns.length,
         keyNumber: columns.length + 1,
         enqueueSnackbar,
       })
     );
+    setFetchIsEndProjectTickets(true);
 
-    handleCloseModal();
     formik.resetForm();
+    handleCloseModal();
     fetchProjectTickets();
   };
 
@@ -95,16 +101,20 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
   });
 
   const fetchCurrentProject = useCallback(async () => {
-    await dispatch(getOneProject({ id: match.params.id, enqueueSnackbar }));
+    if (!fetchIsEndCurrentProject && !error) {
+      await dispatch(getOneProject({ id: match.params.id, enqueueSnackbar }));
 
-    setFetchIsEndCurrentProject(true);
-  }, [dispatch, enqueueSnackbar, match.params.id]);
+      setFetchIsEndCurrentProject(true);
+    }
+  }, [dispatch, enqueueSnackbar, fetchIsEndCurrentProject, error, match.params.id]);
 
   const fetchProjectTickets = useCallback(async () => {
-    await dispatch(getTickets({ projectId: match.params.id, enqueueSnackbar }));
+    if (fetchIsEndCurrentProject && !error) {
+      await dispatch(getTickets({ projectId: match.params.id, enqueueSnackbar }));
 
-    setFetchIsEndProjectTickets(true);
-  }, [dispatch, enqueueSnackbar, match.params.id]);
+      setFetchIsEndProjectTickets(true);
+    }
+  }, [dispatch, enqueueSnackbar, match.params.id, fetchIsEndCurrentProject, error]);
 
   useEffect(() => {
     fetchCurrentProject();
@@ -119,7 +129,7 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
     }
   }, [error, history, dispatch]);
 
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
 
     const { source, destination, draggableId } = result;
@@ -127,20 +137,24 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
     if (source.droppableId !== destination.droppableId) {
       dispatch(
         changeCardColumn({
+          projectId: match.params.id,
           draggableId,
           srcIndex: source.index,
           destIndex: destination.index,
           srcDroppableId: source.droppableId,
           destDroppableId: destination.droppableId,
+          enqueueSnackbar,
         })
       );
     } else {
       dispatch(
         changeCardPosition({
+          projectId: match.params.id,
           draggableId,
           srcIndex: source.index,
           destIndex: destination.index,
           srcDroppableId: source.droppableId,
+          enqueueSnackbar,
         })
       );
     }
