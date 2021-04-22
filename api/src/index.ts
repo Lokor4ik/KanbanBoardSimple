@@ -28,7 +28,7 @@ connectDB();
 
 if (require.main === module) {
   try {
-    app.listen(Number(API_PORT), '0.0.0.0', () => {
+    app.listen(Number(API_PORT) || 9090, '0.0.0.0', () => {
       console.warn(`API server listening on port ${API_PORT}`);
     });
   } catch (error) {
