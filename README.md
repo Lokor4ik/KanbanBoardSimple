@@ -22,7 +22,7 @@ You need to add a .env file to the `api` directory, where specify these variable
 
 ##### API_PORT: `9090`
 
-##### CLIENT_URL: `http://localhost:3000`
+##### DEV_CLIENT_URL: `http://localhost:3000`
 
 ##### MONGO_URI: `mongodb+srv://...`
 
