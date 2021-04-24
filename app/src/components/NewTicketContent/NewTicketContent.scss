@@ -1,0 +1,26 @@
+.new-ticket__container {
+  padding: 20px;
+}
+.new-ticket__title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  svg {
+    cursor: pointer;
+  }
+}
+.new-ticket__title {
+  font-size: 20px;
+}
+.new-ticket__form {
+  min-height: 400px;
+  max-height: 600px;
+  min-width: 750px;
+  max-width: 750px;
+}
+.new-ticket__descr {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  color: #757575;
+}

@@ -1,10 +1,10 @@
-// import { Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import NavBar from 'layouts/NavBar/NavBar';
 import MainLayout from 'layouts/MainLayout/MainLayout';
 
-// import NewTicket from 'pages/NewTicket/NewTicket';
+import CurrentTicket from 'pages/CurrentTicket/CurrentTicket';
 
 import KanbanContainer from 'containers/Kanban/Kanban';
 
@@ -25,7 +25,7 @@ const Kanban = () => {
         <KanbanContainer />
       </MainLayout>
 
-      {/* <Route path="/projects/:id/new-ticket" exact component={NewTicket} /> */}
+      <Route path="/projects/:id/ticket/:ticketId" exact component={CurrentTicket} />
     </>
   );
 };

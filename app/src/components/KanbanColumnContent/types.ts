@@ -7,6 +7,7 @@ export type PropsKanbanColumnContent = {
   columnId: string;
   columns: Array<ColumnsType>;
   keyProject: string;
+  handleTikectClick: (ticketId: string) => void;
 };
 
 export type TypeGetItemStyle = (

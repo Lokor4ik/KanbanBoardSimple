@@ -57,6 +57,7 @@ const KanbanColumnContent: React.FC<PropsKanbanColumnContent> = ({
   columnId,
   columns,
   keyProject,
+  handleTikectClick,
 }) => {
   const styles = useStyles();
 
@@ -82,6 +83,7 @@ const KanbanColumnContent: React.FC<PropsKanbanColumnContent> = ({
                           snapshotLower.isDragging,
                           providedLower.draggableProps.style
                         )}
+                        onClick={() => handleTikectClick(item._id)}
                       >
                         <Typography className={styles.key}>
                           {`${keyProject} - ${item.keyNumber}`}

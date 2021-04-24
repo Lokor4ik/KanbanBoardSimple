@@ -23,10 +23,13 @@ import { RootState } from 'store/types';
 import {
   changeCardColumn,
   changeCardPosition,
+  changeTexEditorValue,
   createNewTicket,
   getTickets,
 } from 'store/kanban/action';
 import { clearProjectErrors, getOneProject } from 'store/projects/action';
+import { initialStateKanban } from 'store/kanban/reducer';
+import { TicketDescrType } from 'store/kanban/types';
 
 import { RouteInfo, FormikParamsNewTicket } from './types';
 
@@ -54,7 +57,7 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { columns } = useSelector((state: RootState) => state.kanban);
+  const { columns, ticketDescr } = useSelector((state: RootState) => state.kanban);
 
   const { loading: loadingProject, error, currentProject } = useSelector(
     (state: RootState) => state.projects
@@ -64,7 +67,7 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
   const [fetchIsEndProjectTickets, setFetchIsEndProjectTickets] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const handleSumbit = async ({ title, descr }: FormikParamsNewTicket) => {
+  const handleSumbit = async ({ title }: FormikParamsNewTicket) => {
     setFetchIsEndProjectTickets(false);
 
     const index = columns.filter((item) => item.columnId === kanbanTables[0].id).length;
@@ -75,7 +78,7 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
         title,
         index,
         columnId: kanbanTables[0].id,
-        descr,
+        descr: ticketDescr,
         keyNumber: columns.length + 1,
         enqueueSnackbar,
       })
@@ -94,7 +97,6 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
   const formik = useFormik({
     initialValues: {
       title: '',
-      descr: '',
     },
     validationSchema,
     onSubmit: handleSumbit,
@@ -165,7 +167,18 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
   };
 
   const handleCloseModal = () => {
+    dispatch(changeTexEditorValue({ textEditorValue: initialStateKanban.ticketDescr }));
+    formik.resetForm();
+
     setOpen(false);
+  };
+
+  const handleTikectClick = (ticketId: string) => {
+    history.push(`/projects/${match.params.id}/ticket/${ticketId}`);
+  };
+
+  const handleChange = (textEditorValue: TicketDescrType) => {
+    dispatch(changeTexEditorValue({ textEditorValue }));
   };
 
   if (
@@ -191,6 +204,7 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
                 columnId={id}
                 columns={columns}
                 keyProject={currentProject.key}
+                handleTikectClick={handleTikectClick}
               />
             </KanbanColumn>
           ))}
@@ -211,7 +225,13 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
       >
         <Fade in={open}>
           <div className="new-ticket__inner">
-            <NewTicketContent keyProject={currentProject.key} formik={formik} />
+            <NewTicketContent
+              descrTicket={ticketDescr}
+              keyProject={currentProject.key}
+              handleClose={handleCloseModal}
+              handleChange={handleChange}
+              formik={formik}
+            />
           </div>
         </Fade>
       </Modal>

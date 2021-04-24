@@ -13,12 +13,16 @@ import {
   CREATE_NEW_TICKET_SUCCESS,
   GET_TICKETS_REQUEST,
   GET_TICKETS_SUCCESS,
+  SET_TEXT_EDITOR_DESCR,
+  SET_CURRENT_TICKET_DESCR,
   KANBAN_FAILURE,
   ParamsChangeCardColumn,
   ParamsChangeCardPosition,
   ParamsCreateNewTicket,
   ParamsGetTickets,
   ColumnsType,
+  ChangeTexEditorValueProps,
+  ChangeCurrentTicketValueProps,
 } from './types';
 
 export const changeCardColumn = ({
@@ -297,4 +301,35 @@ export const getTickets = ({
       type: KANBAN_FAILURE,
     });
   }
+};
+
+export const changeTexEditorValue = ({
+  textEditorValue,
+}: ChangeTexEditorValueProps): RootThunkAction => async (dispatch) => {
+  dispatch({
+    type: SET_TEXT_EDITOR_DESCR,
+    payload: { textEditorValue },
+  });
+};
+
+export const changeCurrentTicketValue = ({
+  ticketId,
+  descr,
+}: ChangeCurrentTicketValueProps): RootThunkAction => async (dispatch, getState) => {
+  const { columns } = getState().kanban;
+
+  const updatedTickets = columns.map((item) => {
+    if (item._id === ticketId) {
+      return { ...item, descr };
+    }
+
+    return item;
+  });
+
+  dispatch({
+    type: SET_CURRENT_TICKET_DESCR,
+    payload: {
+      modifiedColumns: updatedTickets,
+    },
+  });
 };

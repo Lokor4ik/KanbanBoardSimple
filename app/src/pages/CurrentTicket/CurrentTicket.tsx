@@ -1,4 +1,4 @@
-import NewTicketContainer from 'containers/NewTicket/NewTicket';
+import NewTicketContainer from 'containers/CurrentTicket/CurrentTicket';
 
 const NewTicket = () => <NewTicketContainer />;
 

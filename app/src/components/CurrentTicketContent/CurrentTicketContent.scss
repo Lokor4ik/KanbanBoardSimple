@@ -1,0 +1,37 @@
+.current-ticket__title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+
+  svg {
+    cursor: pointer;
+  }
+}
+.current-ticket__title {
+  font-size: 22px;
+  font-weight: 600;
+}
+.current-ticket__descr {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: rgb(122, 122, 122);
+}
+.current-ticket__btns {
+  display: flex;
+  margin-top: auto;
+  padding-top: 15px;
+}
+.current-ticket__edit {
+  width: 200px !important;
+}
+.current-ticket__cancel,
+.current-ticket__save {
+  width: 150px !important;
+}
+.current-ticket__cancel {
+  background-color: transparent !important;
+  color: #9c27b0 !important;
+  border: 1px solid #9c27b0 !important;
+  margin-right: 10px !important;
+}

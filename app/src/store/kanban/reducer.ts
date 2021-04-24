@@ -9,6 +9,8 @@ import {
   CREATE_NEW_TICKET_SUCCESS,
   GET_TICKETS_REQUEST,
   GET_TICKETS_SUCCESS,
+  SET_TEXT_EDITOR_DESCR,
+  SET_CURRENT_TICKET_DESCR,
   KANBAN_FAILURE,
   KanbanInitialState,
 } from './types';
@@ -24,6 +26,12 @@ const testData = Array.from({ length: 20 }, () => ({
 export const initialStateKanban: KanbanInitialState = {
   columns: [],
   loading: false,
+  ticketDescr: [
+    {
+      type: '',
+      children: [{ text: '' }],
+    },
+  ],
 };
 
 export default function reducer(state = initialStateKanban, action: AnyAction) {
@@ -41,6 +49,7 @@ export default function reducer(state = initialStateKanban, action: AnyAction) {
       return {
         ...state,
         loading: false,
+        ticketDescr: initialStateKanban.ticketDescr,
       };
     }
     case GET_TICKETS_SUCCESS: {
@@ -54,6 +63,18 @@ export default function reducer(state = initialStateKanban, action: AnyAction) {
       return {
         ...state,
         columns: action.payload.modifiedColumns,
+      };
+    }
+    case SET_TEXT_EDITOR_DESCR: {
+      return {
+        ...state,
+        ticketDescr: [...action.payload.textEditorValue],
+      };
+    }
+    case SET_CURRENT_TICKET_DESCR: {
+      return {
+        ...state,
+        columns: [...action.payload.modifiedColumns],
       };
     }
     case KANBAN_FAILURE: {

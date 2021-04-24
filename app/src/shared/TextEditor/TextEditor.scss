@@ -1,0 +1,75 @@
+.tool-bar {
+  background-color: #f7f7f7;
+}
+.text-editor--edit {
+  min-height: 180px !important;
+  background-color: #f7f7f7;
+  padding: 10px;
+}
+.text-editor {
+  max-height: 340px;
+  flex: 1;
+  overflow: auto;
+
+  input,
+  textarea {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.4;
+    background: #eee;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  pre {
+    padding: 10px;
+    background-color: #eee;
+    white-space: pre-wrap;
+  }
+
+  :not(pre) > code {
+    font-family: monospace;
+    background-color: #cacaca;
+    padding: 3px;
+  }
+
+  blockquote {
+    border-left: 2px solid #ddd;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 10px;
+    color: #aaa;
+    font-style: italic;
+  }
+
+  blockquote[dir='rtl'] {
+    border-left: none;
+    padding-left: 0;
+    padding-right: 10px;
+    border-right: 2px solid #ddd;
+  }
+
+  input {
+    box-sizing: border-box;
+    font-size: 0.85em;
+    width: 100%;
+    padding: 0.5em;
+    border: 2px solid #ddd;
+    background: #fafafa;
+  }
+
+  input:focus {
+    outline: 0;
+    border-color: blue;
+  }
+
+  iframe {
+    width: 100%;
+    border: 1px solid #eee;
+  }
+
+  [data-slate-editor] > * + * {
+    margin-top: 1em;
+  }
+}

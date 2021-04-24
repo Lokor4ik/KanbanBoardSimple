@@ -1,0 +1,21 @@
+.current-ticket__inner {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  background: #2f2f2fb8;
+  width: 100%;
+  height: 100%;
+}
+.current__ticket-wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+  max-height: 600px;
+  min-width: 750px;
+  max-width: 750px;
+}

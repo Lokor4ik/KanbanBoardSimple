@@ -12,7 +12,7 @@ const TicketSchema = new Schema({
     required: true,
   },
   descr: {
-    type: String,
+    type: Array,
   },
   index: {
     type: Number,

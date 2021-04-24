@@ -1,7 +1,9 @@
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 
+import TextEditor from 'shared/TextEditor/TextEditor';
 import ColorButton from 'shared/Button/Button';
 
 import { NewTicketContentTypes } from './types';
@@ -9,28 +11,35 @@ import { NewTicketContentTypes } from './types';
 import './NewTicketContent.scss';
 
 const useStyles = makeStyles({
-  newTicketTitle: {
-    fontSize: 20,
-    margin: '10px 0',
-  },
   keyProject: {
     marginTop: 15,
+    color: '#757575',
   },
   submit: {
     marginTop: 20,
-    marginBottom: 10,
+    width: 200,
   },
 });
 
-const NewTicketContent: React.FC<NewTicketContentTypes> = ({ keyProject, formik }) => {
+const NewTicketContent: React.FC<NewTicketContentTypes> = ({
+  descrTicket,
+  keyProject,
+  handleClose,
+  handleChange,
+  formik,
+}) => {
   const classes = useStyles();
 
   return (
     <>
-      <div className="container" id="transition-modal-description">
-        <Typography className={classes.newTicketTitle}>New ticket</Typography>
+      <div className="new-ticket__container" id="transition-modal-description">
+        <div className="new-ticket__title-wrapper">
+          <p className="new-ticket__title">New ticket</p>
 
-        <form onSubmit={formik.handleSubmit}>
+          <CloseIcon onClick={handleClose} />
+        </div>
+
+        <form className="new-ticket__form" onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
             id="title"
@@ -41,17 +50,9 @@ const NewTicketContent: React.FC<NewTicketContentTypes> = ({ keyProject, formik 
             error={formik.touched.title && Boolean(formik.errors.title)}
             helperText={formik.touched.title && formik.errors.title}
           />
-          <TextField
-            fullWidth
-            id="descr"
-            name="descr"
-            label="Description"
-            type="descr"
-            value={formik.values.descr}
-            onChange={formik.handleChange}
-            error={formik.touched.descr && Boolean(formik.errors.descr)}
-            helperText={formik.touched.descr && formik.errors.descr}
-          />
+
+          <p className="new-ticket__descr">Description: </p>
+          <TextEditor editTextEditor descrValue={descrTicket} handleChange={handleChange} />
 
           <Typography className={classes.keyProject}>{`Key: ${keyProject}`}</Typography>
 
