@@ -76,7 +76,7 @@ const CurrentTicket: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) => {
   };
 
   const validationSchema = yup.object({
-    title: yup.string().required('Title is required'),
+    title: yup.string().required('Title is required').trim(),
   });
 
   const formik = useFormik({
