@@ -15,7 +15,7 @@ const ProjectSettingsHeader: React.FC<
       Projects
     </Link>
 
-    <Link className="breadcrumb__link" to={`/projects/${match.params.id}`}>
+    <Link className="breadcrumb__link" to={`/projects/${match.params.projectId}`}>
       {projectName}
     </Link>
 

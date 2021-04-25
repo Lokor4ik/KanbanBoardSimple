@@ -6,7 +6,10 @@ export const CREATE_NEW_TICKET_SUCCESS = 'CREATE_NEW_TICKET_SUCCESS';
 export const GET_TICKETS_REQUEST = 'GET_TICKETS_REQUEST';
 export const GET_TICKETS_SUCCESS = 'GET_TICKETS_SUCCESS';
 export const SET_TEXT_EDITOR_DESCR = 'SET_TEXT_EDITOR_DESCR';
-export const SET_CURRENT_TICKET_DESCR = 'SET_CURRENT_TICKET_DESCR';
+export const CHANGE_CURRENT_TICKET_REQUEST = 'CHANGE_CURRENT_TICKET_REQUEST';
+export const CHANGE_CURRENT_TICKET_SUCCESS = 'CHANGE_CURRENT_TICKET_SUCCESS';
+export const DELETE_CURRENT_TICKET_REQUEST = 'DELETE_CURRENT_TICKET_REQUEST';
+export const DELETE_CURRENT_TICKET_SUCCESS = 'DELETE_CURRENT_TICKET_SUCCESS';
 export const KANBAN_FAILURE = 'KANBAN_FAILURE';
 
 export type TicketDescrType = Array<
@@ -64,6 +67,13 @@ export type ChangeTexEditorValueProps = {
 };
 
 export type ChangeCurrentTicketValueProps = {
+  projectId: string;
   ticketId: string;
+  title: string;
   descr: TicketDescrType;
+};
+
+export type DeleteCurrentTicketProps = {
+  projectId: string;
+  ticketId: string;
 };

@@ -10,7 +10,10 @@ import {
   GET_TICKETS_REQUEST,
   GET_TICKETS_SUCCESS,
   SET_TEXT_EDITOR_DESCR,
-  SET_CURRENT_TICKET_DESCR,
+  CHANGE_CURRENT_TICKET_REQUEST,
+  CHANGE_CURRENT_TICKET_SUCCESS,
+  DELETE_CURRENT_TICKET_REQUEST,
+  DELETE_CURRENT_TICKET_SUCCESS,
   KANBAN_FAILURE,
   KanbanInitialState,
 } from './types';
@@ -38,7 +41,9 @@ export default function reducer(state = initialStateKanban, action: AnyAction) {
   switch (action.type) {
     case CREATE_NEW_TICKET_REQUEST:
     case GET_TICKETS_REQUEST:
-    case SET_CARD_DESTINATION_REQUEST: {
+    case SET_CARD_DESTINATION_REQUEST:
+    case CHANGE_CURRENT_TICKET_REQUEST:
+    case DELETE_CURRENT_TICKET_REQUEST: {
       return {
         ...state,
         loading: true,
@@ -71,10 +76,11 @@ export default function reducer(state = initialStateKanban, action: AnyAction) {
         ticketDescr: [...action.payload.textEditorValue],
       };
     }
-    case SET_CURRENT_TICKET_DESCR: {
+    case CHANGE_CURRENT_TICKET_SUCCESS:
+    case DELETE_CURRENT_TICKET_SUCCESS: {
       return {
         ...state,
-        columns: [...action.payload.modifiedColumns],
+        loading: false,
       };
     }
     case KANBAN_FAILURE: {

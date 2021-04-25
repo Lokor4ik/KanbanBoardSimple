@@ -35,3 +35,14 @@
   border: 1px solid #9c27b0 !important;
   margin-right: 10px !important;
 }
+
+.current-ticket__delete {
+  width: 80px !important;
+  margin-left: auto !important;
+  background-color: #ec7878 !important;
+  transition: all ease-in-out 0.2s;
+
+  &:hover {
+    background-color: #ff0000 !important;
+  }
+}

@@ -31,7 +31,7 @@ const KanbanHeader: React.FC<RouteComponentProps<RouteInfo> & KanbanHeaderTypes>
 
     <CustomLink
       title="Project settings"
-      path={`/projects/${match.params.id}/project-settings`}
+      path={`/projects/${match.params.projectId}/project-settings`}
       className="link--blue link--no-margins"
     />
   </div>

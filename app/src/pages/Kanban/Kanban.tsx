@@ -25,7 +25,7 @@ const Kanban = () => {
         <KanbanContainer />
       </MainLayout>
 
-      <Route path="/projects/:id/ticket/:ticketId" exact component={CurrentTicket} />
+      <Route path="/projects/:projectId/ticket/:ticketId" exact component={CurrentTicket} />
     </>
   );
 };

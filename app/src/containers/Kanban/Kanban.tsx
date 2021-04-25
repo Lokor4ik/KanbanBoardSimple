@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 import Loader from 'shared/Loader/Loader';
 
@@ -35,18 +35,12 @@ import { RouteInfo, FormikParamsNewTicket } from './types';
 
 import './Kanban.scss';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     modal: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-    },
-    paper: {
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
     },
   })
 );
@@ -74,7 +68,7 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
 
     await dispatch(
       createNewTicket({
-        projectId: match.params.id,
+        projectId: match.params.projectId,
         title,
         index,
         columnId: kanbanTables[0].id,
@@ -104,19 +98,19 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
 
   const fetchCurrentProject = useCallback(async () => {
     if (!fetchIsEndCurrentProject && !error) {
-      await dispatch(getOneProject({ id: match.params.id, enqueueSnackbar }));
+      await dispatch(getOneProject({ id: match.params.projectId, enqueueSnackbar }));
 
       setFetchIsEndCurrentProject(true);
     }
-  }, [dispatch, enqueueSnackbar, fetchIsEndCurrentProject, error, match.params.id]);
+  }, [dispatch, enqueueSnackbar, fetchIsEndCurrentProject, error, match.params.projectId]);
 
   const fetchProjectTickets = useCallback(async () => {
     if (fetchIsEndCurrentProject && !error) {
-      await dispatch(getTickets({ projectId: match.params.id, enqueueSnackbar }));
+      await dispatch(getTickets({ projectId: match.params.projectId, enqueueSnackbar }));
 
       setFetchIsEndProjectTickets(true);
     }
-  }, [dispatch, enqueueSnackbar, match.params.id, fetchIsEndCurrentProject, error]);
+  }, [dispatch, enqueueSnackbar, match.params.projectId, fetchIsEndCurrentProject, error]);
 
   useEffect(() => {
     fetchCurrentProject();
@@ -139,7 +133,7 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
     if (source.droppableId !== destination.droppableId) {
       dispatch(
         changeCardColumn({
-          projectId: match.params.id,
+          projectId: match.params.projectId,
           draggableId,
           srcIndex: source.index,
           destIndex: destination.index,
@@ -151,7 +145,7 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
     } else {
       dispatch(
         changeCardPosition({
-          projectId: match.params.id,
+          projectId: match.params.projectId,
           draggableId,
           srcIndex: source.index,
           destIndex: destination.index,
@@ -174,7 +168,7 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
   };
 
   const handleTikectClick = (ticketId: string) => {
-    history.push(`/projects/${match.params.id}/ticket/${ticketId}`);
+    history.push(`/projects/${match.params.projectId}/ticket/${ticketId}`);
   };
 
   const handleChange = (textEditorValue: TicketDescrType) => {

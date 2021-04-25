@@ -14,6 +14,8 @@ import {
   UPDATE_PROJECT_SUCCESS,
   GET_ONE_PROJECT_REQUEST,
   GET_ONE_PROJECT_SUCCESS,
+  DELETE_CURRENT_PROJECT_REQUEST,
+  DELETE_CURRENT_PROJECT_SUCCESS,
   CLEAR_ROWS,
   PROJECTS_ONE_PROJECT_FAILURE,
   PROJECTS_FAILURE,
@@ -115,6 +117,42 @@ export const getOneProject = ({
 
     dispatch({
       type: PROJECTS_ONE_PROJECT_FAILURE,
+    });
+  }
+};
+
+export const deleteCurrentProject = ({
+  id,
+  enqueueSnackbar,
+}: ParamsGetOneProject & ProviderContextNotistack): RootThunkAction => async (dispatch) => {
+  try {
+    dispatch({
+      type: DELETE_CURRENT_PROJECT_REQUEST,
+    });
+
+    const headers = getFetchHeaders();
+    const body = JSON.stringify({ id });
+
+    const { msg, severity } = await request('/api/project', 'DELETE', body, headers);
+
+    enqueueSnackbar(msg, {
+      variant: severity,
+    });
+
+    dispatch({
+      type: DELETE_CURRENT_PROJECT_SUCCESS,
+    });
+  } catch (error) {
+    const errors = handleErrors(error);
+
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
+    dispatch({
+      type: PROJECTS_FAILURE,
     });
   }
 };

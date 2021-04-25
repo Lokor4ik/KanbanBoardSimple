@@ -1,0 +1,28 @@
+.delete-common__title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  svg {
+    cursor: pointer;
+  }
+}
+
+.delete-common__title {
+  text-align: center;
+  font-size: 18px;
+  margin-right: 20px;
+}
+
+.delete-common__btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+
+  button {
+    &:nth-child(2) {
+      width: 150px !important;
+    }
+  }
+}

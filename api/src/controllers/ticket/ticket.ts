@@ -98,4 +98,59 @@ const changeTicketsPosition = async (req: Request, res: Response) => {
   }
 };
 
-export default { createTicket, getTickets, changeTicketsPosition };
+const changeCurrentTicket = async (req: Request, res: Response) => {
+  checkErrors(req, res);
+
+  try {
+    const { projectId, ticketId, title, descr } = req.body;
+
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(404).json({ errors: [{ msg: 'Project not found', severity: 'error' }] });
+    }
+
+    const ticketBody = {
+      title,
+      descr,
+    };
+
+    await Ticket.updateOne({ _id: ticketId }, { $set: ticketBody });
+
+    res.json({ msg: 'Successfully updated ticket', severity: 'success' });
+  } catch (error) {
+    if (error.kind === 'ObjectId') {
+      res.status(404).json({ errors: [{ msg: 'One of the IDs is incorrect', severity: 'error' }] });
+      return;
+    }
+
+    res.status(500).send('Server Error');
+  }
+};
+
+const deleteCurrentTicket = async (req: Request, res: Response) => {
+  checkErrors(req, res);
+
+  try {
+    const { projectId, ticketId } = req.body;
+
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(404).json({ errors: [{ msg: 'Project not found', severity: 'error' }] });
+    }
+
+    await Ticket.deleteOne({ _id: ticketId });
+
+    res.json({ msg: 'Successfully deleted ticket', severity: 'success' });
+  } catch (error) {
+    if (error.kind === 'ObjectId') {
+      res.status(404).json({ errors: [{ msg: 'One of the IDs is incorrect', severity: 'error' }] });
+      return;
+    }
+
+    res.status(500).send('Server Error');
+  }
+};
+
+export default { createTicket, getTickets, changeTicketsPosition, changeCurrentTicket, deleteCurrentTicket };

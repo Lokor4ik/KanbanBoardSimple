@@ -14,7 +14,10 @@ import {
   GET_TICKETS_REQUEST,
   GET_TICKETS_SUCCESS,
   SET_TEXT_EDITOR_DESCR,
-  SET_CURRENT_TICKET_DESCR,
+  CHANGE_CURRENT_TICKET_REQUEST,
+  CHANGE_CURRENT_TICKET_SUCCESS,
+  DELETE_CURRENT_TICKET_REQUEST,
+  DELETE_CURRENT_TICKET_SUCCESS,
   KANBAN_FAILURE,
   ParamsChangeCardColumn,
   ParamsChangeCardPosition,
@@ -23,6 +26,7 @@ import {
   ColumnsType,
   ChangeTexEditorValueProps,
   ChangeCurrentTicketValueProps,
+  DeleteCurrentTicketProps,
 } from './types';
 
 export const changeCardColumn = ({
@@ -313,23 +317,85 @@ export const changeTexEditorValue = ({
 };
 
 export const changeCurrentTicketValue = ({
+  projectId,
   ticketId,
+  title,
   descr,
-}: ChangeCurrentTicketValueProps): RootThunkAction => async (dispatch, getState) => {
-  const { columns } = getState().kanban;
+  enqueueSnackbar,
+}: ChangeCurrentTicketValueProps & ProviderContextNotistack): RootThunkAction => async (
+  dispatch
+) => {
+  try {
+    dispatch({
+      type: CHANGE_CURRENT_TICKET_REQUEST,
+    });
 
-  const updatedTickets = columns.map((item) => {
-    if (item._id === ticketId) {
-      return { ...item, descr };
-    }
+    const headers = getFetchHeaders();
+    const body = JSON.stringify({
+      projectId,
+      ticketId,
+      title,
+      descr,
+    });
+    const { msg, severity } = await request('/api/ticket', 'PATCH', body, headers);
 
-    return item;
-  });
+    enqueueSnackbar(msg, {
+      variant: severity,
+    });
 
-  dispatch({
-    type: SET_CURRENT_TICKET_DESCR,
-    payload: {
-      modifiedColumns: updatedTickets,
-    },
-  });
+    dispatch({
+      type: CHANGE_CURRENT_TICKET_SUCCESS,
+    });
+  } catch (error) {
+    const errors = handleErrors(error);
+
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
+    dispatch({
+      type: KANBAN_FAILURE,
+    });
+  }
+};
+
+export const deleteCurrentTicket = ({
+  projectId,
+  ticketId,
+  enqueueSnackbar,
+}: DeleteCurrentTicketProps & ProviderContextNotistack): RootThunkAction => async (dispatch) => {
+  try {
+    dispatch({
+      type: DELETE_CURRENT_TICKET_REQUEST,
+    });
+
+    const headers = getFetchHeaders();
+    const body = JSON.stringify({
+      projectId,
+      ticketId,
+    });
+    const { msg, severity } = await request('/api/ticket', 'DELETE', body, headers);
+
+    enqueueSnackbar(msg, {
+      variant: severity,
+    });
+
+    dispatch({
+      type: DELETE_CURRENT_TICKET_SUCCESS,
+    });
+  } catch (error) {
+    const errors = handleErrors(error);
+
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
+    dispatch({
+      type: KANBAN_FAILURE,
+    });
+  }
 };

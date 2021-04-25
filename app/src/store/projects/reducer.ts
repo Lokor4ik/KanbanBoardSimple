@@ -9,6 +9,8 @@ import {
   UPDATE_PROJECT_SUCCESS,
   GET_ONE_PROJECT_REQUEST,
   GET_ONE_PROJECT_SUCCESS,
+  DELETE_CURRENT_PROJECT_REQUEST,
+  DELETE_CURRENT_PROJECT_SUCCESS,
   CLEAR_ROWS,
   PROJECTS_ONE_PROJECT_FAILURE,
   PROJECTS_FAILURE,
@@ -37,6 +39,7 @@ export default function reducer(state = initialStateProjects, action: AnyAction)
         ...state,
         loading: true,
       };
+    case DELETE_CURRENT_PROJECT_REQUEST:
     case CREATE_NEW_PROJECT_REQUEST: {
       return {
         ...state,
@@ -53,7 +56,8 @@ export default function reducer(state = initialStateProjects, action: AnyAction)
       };
     }
     case CREATE_NEW_PROJECT_SUCCESS:
-    case UPDATE_PROJECT_SUCCESS: {
+    case UPDATE_PROJECT_SUCCESS:
+    case DELETE_CURRENT_PROJECT_SUCCESS: {
       return {
         ...state,
         creatingProject: false,

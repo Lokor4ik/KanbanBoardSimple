@@ -5,10 +5,12 @@ import projectController from '../controllers/project/project';
 
 const router = express.Router();
 
-const commonMiddlewares = [check('name', 'Name is required').not().isEmpty(), check('key', 'Key is required').not().isEmpty()];
+const commonMiddlewares1 = [check('name', 'Name is required').not().isEmpty(), check('key', 'Key is required').not().isEmpty()];
+const commonMiddlewares2 = [check('id', 'Project id is required').not().isEmpty()];
 
-const middlewaresCreateProject = [...commonMiddlewares];
-const middlewaresUpdateProject = [...commonMiddlewares, check('id', 'Project id is required').not().isEmpty()];
+const middlewaresCreateProject = [...commonMiddlewares1];
+const middlewaresUpdateProject = [...commonMiddlewares1, ...commonMiddlewares2];
+const middlewaresDeleteProject = [...commonMiddlewares2];
 
 // @route  POST api/project
 // @desc   Create new project
@@ -29,5 +31,10 @@ router.get('/', projectController.getAllProjects);
 // @desc   Get one project
 // @access Public
 router.get('/:id', projectController.getOneProject);
+
+// @route  DELETE api/project/
+// @desc   Delete current project
+// @access Public
+router.delete('/', middlewaresDeleteProject, projectController.deleteCurrentProject);
 
 export default router;

@@ -11,12 +11,25 @@ const useStyles = makeStyles({
   h6: {
     fontWeight: 500,
   },
-  submit: {
+  saveSubmit: {
     marginTop: 40,
+  },
+  deleteSubmit: {
+    marginTop: 40,
+    width: 150,
+    marginLeft: 15,
+    transition: 'all ease-in-out 0.2s',
+    background: '#ec7878',
+    '&:hover': {
+      background: '#ff0000',
+    },
   },
 });
 
-const ProjectSettingsContent: React.FC<ProjectSettingsContentProps> = ({ formik }) => {
+const ProjectSettingsContent: React.FC<ProjectSettingsContentProps> = ({
+  formik,
+  handleOpenModal,
+}) => {
   const classes = useStyles();
 
   return (
@@ -44,9 +57,20 @@ const ProjectSettingsContent: React.FC<ProjectSettingsContentProps> = ({ formik 
           helperText={formik.touched.key && formik.errors.key}
         />
 
-        <ColorButton fullWidth type="submit" className={classes.submit}>
-          Save
-        </ColorButton>
+        <div className="project-settings__btns">
+          <ColorButton fullWidth type="submit" className={classes.saveSubmit}>
+            Save
+          </ColorButton>
+
+          <ColorButton
+            fullWidth
+            type="button"
+            onClick={handleOpenModal}
+            className={classes.deleteSubmit}
+          >
+            Delete
+          </ColorButton>
+        </div>
       </form>
     </div>
   );

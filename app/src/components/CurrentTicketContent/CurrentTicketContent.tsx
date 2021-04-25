@@ -15,6 +15,7 @@ const CurrentTicketContent: React.FC<CurrentTicketContentProps> = ({
   descr,
   editTextEditor,
   setEditTextEditor,
+  deleteTicket,
   formik,
 }) => {
   return (
@@ -70,6 +71,14 @@ const CurrentTicketContent: React.FC<CurrentTicketContentProps> = ({
             </ColorButton>
           </>
         )}
+        <ColorButton
+          onClick={deleteTicket}
+          fullWidth
+          type="button"
+          className="current-ticket__delete"
+        >
+          Delete
+        </ColorButton>
       </div>
     </form>
   );

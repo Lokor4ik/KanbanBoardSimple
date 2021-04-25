@@ -1,5 +1,5 @@
 export interface RouteInfo {
-  id: string;
+  projectId: string;
   ticketId: string;
 }
 

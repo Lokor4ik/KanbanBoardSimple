@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { Project } from '../../models/Project/Project';
+import { Ticket } from '../../models/Ticket/Ticket';
 
 import checkErrors from '../../utils/middlewareErrors';
 
@@ -84,4 +85,25 @@ const getOneProject = async (req: Request, res: Response) => {
   }
 };
 
-export default { createProject, updateProject, getAllProjects, getOneProject };
+const deleteCurrentProject = async (req: Request, res: Response) => {
+  checkErrors(req, res);
+
+  try {
+    const { id } = req.body;
+
+    await Project.deleteOne({ _id: id });
+
+    await Ticket.deleteMany({ projectId: id });
+
+    res.json({ msg: 'Successfully deleted project', severity: 'success' });
+  } catch (error) {
+    if (error.kind === 'ObjectId') {
+      res.status(404).json({ errors: [{ msg: 'One of the IDs is incorrect', severity: 'error' }] });
+      return;
+    }
+
+    res.status(500).send('Server Error');
+  }
+};
+
+export default { createProject, updateProject, getAllProjects, getOneProject, deleteCurrentProject };

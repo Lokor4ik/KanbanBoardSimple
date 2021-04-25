@@ -9,5 +9,6 @@ export type CurrentTicketContentProps = {
   descr: TicketDescrType | undefined;
   editTextEditor: boolean;
   setEditTextEditor: (value: boolean) => void;
+  deleteTicket: () => void;
   formik: FormikValues;
 };
