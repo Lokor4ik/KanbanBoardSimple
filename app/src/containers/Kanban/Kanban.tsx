@@ -85,7 +85,7 @@ const KanbanContainer: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
   };
 
   const validationSchema = yup.object({
-    title: yup.string().required('Title is required').trim(),
+    title: yup.string().required('Title is required').trim().max(70),
   });
 
   const formik = useFormik({

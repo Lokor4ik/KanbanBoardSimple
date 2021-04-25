@@ -33,8 +33,8 @@ const NewProject = () => {
   };
 
   const validationSchema = yup.object({
-    name: yup.string().required('Name is required').trim(),
-    key: yup.string().required('Key is required (for example: KISS, sas, Gign)').trim(),
+    name: yup.string().required('Name is required').trim().max(25),
+    key: yup.string().required('Key is required (for example: KISS, sas, Gign)').trim().max(9),
   });
 
   const formik = useFormik({
